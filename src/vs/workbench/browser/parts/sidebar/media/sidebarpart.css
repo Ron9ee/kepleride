@@ -1,0 +1,193 @@
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.monaco-workbench.nosidebar > .part.sidebar {
+	display: none !important;
+	visibility: hidden !important;
+}
+
+.monaco-workbench .part.sidebar .title-actions .actions-container {
+	justify-content: flex-end;
+}
+
+.monaco-workbench .part.sidebar .title-actions .action-item {
+	margin-right: 4px;
+}
+
+.monaco-workbench .part.sidebar > .title {
+	background-color: var(--vscode-sideBarTitle-background);
+}
+
+.monaco-workbench .part.sidebar > .title > .title-label h2 {
+	text-transform: uppercase;
+}
+
+.monaco-workbench .viewlet .collapsible.header .title {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.monaco-workbench .viewlet .collapsible.header .actions {
+	width: 0; /* not using display: none for keyboard a11y reasons */
+}
+
+.monaco-workbench .viewlet .split-view-view:hover > .header .actions,
+.monaco-workbench .viewlet .collapsible.header.focused .actions {
+	width: initial;
+	flex: 1;
+}
+
+.monaco-workbench .viewlet .collapsible.header .actions .action-label {
+	width: 28px;
+	background-size: 16px;
+	background-position: center center;
+	background-repeat: no-repeat;
+	margin-right: 0;
+	height: 22px;
+}
+
+.monaco-workbench .viewlet .collapsible.header .actions .action-label .label {
+	display: none;
+}
+
+.monaco-workbench .viewlet .collapsible.header.collapsed .actions {
+	display: none;
+}
+
+.monaco-workbench .viewlet .collapsible.header .action-label {
+	margin-right: 0.2em;
+	background-repeat: no-repeat;
+	width: 16px;
+	height: 16px;
+}
+
+.monaco-workbench .part.sidebar > .title > .composite-bar-container > .composite-bar > .monaco-action-bar .action-item:focus,
+.monaco-workbench .part.sidebar > .header-or-footer > .composite-bar-container > .composite-bar > .monaco-action-bar .action-item:focus {
+	outline: 0 !important; /* activity bar indicates focus custom */
+}
+
+.monaco-workbench .part.sidebar > .title > .composite-bar-container > .composite-bar > .monaco-action-bar .action-item .action-label,
+.monaco-workbench .part.sidebar > .header-or-footer > .composite-bar-container > .composite-bar > .monaco-action-bar .action-item .action-label {
+	border-radius: 0px;
+	outline-offset: 2px;
+}
+
+.monaco-workbench .part.sidebar > .title > .composite-bar-container > .composite-bar > .monaco-action-bar .action-item .action-label::before,
+.monaco-workbench .part.sidebar > .header-or-footer > .composite-bar-container > .composite-bar > .monaco-action-bar .action-item .action-label::before {
+	position: absolute;
+	left: 5px; /* place icon in center */
+}
+
+.monaco-workbench .part.sidebar > .header-or-footer > .composite-bar-container > .composite-bar > .monaco-action-bar .action-item.checked:not(:focus) .active-item-indicator:before,
+.monaco-workbench .part.sidebar > .header-or-footer > .composite-bar-container > .composite-bar > .monaco-action-bar .action-item.checked.clicked:focus .active-item-indicator:before,
+.monaco-workbench .part.sidebar > .title > .composite-bar-container > .composite-bar > .monaco-action-bar .action-item.checked:not(:focus) .active-item-indicator:before,
+.monaco-workbench .part.sidebar > .title > .composite-bar-container > .composite-bar > .monaco-action-bar .action-item.checked.clicked:focus .active-item-indicator:before {
+	border-top-color: var(--vscode-activityBarTop-activeBorder) !important;
+}
+
+.monaco-workbench .part.sidebar > .header-or-footer > .composite-bar-container > .composite-bar > .monaco-action-bar .action-item:hover .action-label,
+.monaco-workbench .part.sidebar > .header-or-footer > .composite-bar-container > .composite-bar > .monaco-action-bar .action-item:focus .action-label,
+.monaco-workbench .part.sidebar > .title > .composite-bar-container > .composite-bar > .monaco-action-bar .action-item:hover .action-label,
+.monaco-workbench .part.sidebar > .title > .composite-bar-container > .composite-bar > .monaco-action-bar .action-item:focus .action-label {
+	color: var(--vscode-activityBarTop-foreground) !important;
+}
+
+.monaco-workbench .sidebar.pane-composite-part > .title > .composite-bar-container {
+	flex: 1;
+}
+
+.monaco-workbench .sidebar.part.pane-composite-part > .composite.title.has-composite-bar > .title-actions {
+	flex: inherit;
+}
+
+.monaco-workbench .sidebar.pane-composite-part > .title.has-composite-bar > .title-actions .monaco-action-bar .action-item {
+	max-width: 150px;
+}
+
+/* ============================================================================
+   SIDEBAR TOGGLE ICONS - Based on reference design
+   Reference: outer x=0.5, y=2.5, w=15, h=11, rx=2, stroke=1
+   Inner: x=2, y=4, w=4, h=8, rx=1
+   Uses mask-image + background-color for proper theme support
+   ============================================================================ */
+
+/* Base styles */
+.monaco-action-bar .action-item .action-label.codicon-panel-left,
+.monaco-action-bar .action-item .action-label.codicon-panel-left-off,
+.monaco-action-bar .action-item .action-label.codicon-panel-right,
+.monaco-action-bar .action-item .action-label.codicon-panel-right-off {
+	font-size: 0 !important;
+	line-height: 0 !important;
+	width: 16px !important;
+	height: 16px !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	transition: opacity 120ms ease-in-out, background-color 120ms ease-in-out !important;
+	-webkit-mask-repeat: no-repeat !important;
+	mask-repeat: no-repeat !important;
+	-webkit-mask-position: center !important;
+	mask-position: center !important;
+	-webkit-mask-size: 100% 100% !important;
+	mask-size: 100% 100% !important;
+}
+
+/* Hide default ::before */
+.monaco-action-bar .action-item .action-label.codicon-panel-left::before,
+.monaco-action-bar .action-item .action-label.codicon-panel-left-off::before,
+.monaco-action-bar .action-item .action-label.codicon-panel-right::before,
+.monaco-action-bar .action-item .action-label.codicon-panel-right-off::before {
+	content: none !important;
+	display: none !important;
+}
+
+/* OPEN State - Full opacity */
+.monaco-action-bar .action-item .action-label.codicon-panel-left,
+.monaco-action-bar .action-item .action-label.codicon-panel-right {
+	/* SVG mask with white shapes - color comes from background-color */
+	/* CORNERS: rx=2 for smooth rounded corners */
+	-webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Crect x='0.5' y='2.5' width='15' height='11' rx='2' stroke='white' stroke-width='1' fill='none'/%3E%3Crect x='2' y='4' width='4' height='8' rx='1' fill='white'/%3E%3C/svg%3E") !important;
+	mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Crect x='0.5' y='2.5' width='15' height='11' rx='2' stroke='white' stroke-width='1' fill='none'/%3E%3Crect x='2' y='4' width='4' height='8' rx='1' fill='white'/%3E%3C/svg%3E") !important;
+	background-color: var(--vscode-icon-foreground) !important;
+	opacity: 1 !important;
+}
+
+/* CLOSED State - 40% opacity inner */
+.monaco-action-bar .action-item .action-label.codicon-panel-left-off,
+.monaco-action-bar .action-item .action-label.codicon-panel-right-off {
+	/* SVG mask with 40% opacity inner shape */
+	/* CORNERS: rx=2 for smooth rounded corners, inner opacity 0.4 */
+	-webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Crect x='0.5' y='2.5' width='15' height='11' rx='2' stroke='white' stroke-width='1' fill='none'/%3E%3Crect x='2' y='4' width='4' height='8' rx='1' fill='white' opacity='0.4'/%3E%3C/svg%3E") !important;
+	mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Crect x='0.5' y='2.5' width='15' height='11' rx='2' stroke='white' stroke-width='1' fill='none'/%3E%3Crect x='2' y='4' width='4' height='8' rx='1' fill='white' opacity='0.4'/%3E%3C/svg%3E") !important;
+	background-color: var(--vscode-icon-foreground) !important;
+	opacity: 0.7 !important;
+}
+
+/* Mirror right-side icons */
+.monaco-action-bar .action-item .action-label.codicon-panel-right,
+.monaco-action-bar .action-item .action-label.codicon-panel-right-off {
+	transform: scaleX(-1) !important;
+}
+
+/* Hover states */
+.monaco-action-bar .action-item:hover .action-label.codicon-panel-left-off,
+.monaco-action-bar .action-item:hover .action-label.codicon-panel-right-off {
+	opacity: 0.9 !important;
+}
+
+/* Focus states */
+.monaco-action-bar .action-item:focus .action-label.codicon-panel-left,
+.monaco-action-bar .action-item:focus .action-label.codicon-panel-right {
+	opacity: 1 !important;
+}
+
+/* High contrast */
+.monaco-workbench.hc-black .monaco-action-bar .action-item .action-label.codicon-panel-left,
+.monaco-workbench.hc-black .monaco-action-bar .action-item .action-label.codicon-panel-right,
+.monaco-workbench.hc-light .monaco-action-bar .action-item .action-label.codicon-panel-left,
+.monaco-workbench.hc-light .monaco-action-bar .action-item .action-label.codicon-panel-right {
+	opacity: 1 !important;
+}

@@ -1,0 +1,174 @@
+/*--------------------------------------------------------------------------------------
+ *  Copyright 2025 sarim-developer All rights reserved.
+ *  Licensed under the Apache License, Version 2.0. See LICENSE.txt for more information.
+ *--------------------------------------------------------------------------------------*/
+
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { FeatureName, featureNames, isFeatureNameDisabled, ModelSelection, modelSelectionsEqual, ProviderName, providerNames, SettingsOfProvider } from '../../../../common/KeplerSettingsTypes.js'
+import { useSettingsState, useRefreshModelState, useAccessor, useOpenAiCodexAuthState } from '../util/services.js'
+import { _VoidSelectBox, VoidCustomDropdownBox } from '../util/inputs.js'
+import { SelectBox } from '../../../../../../../base/browser/ui/selectBox/selectBox.js'
+import { VOID_OPEN_SETTINGS_ACTION_ID, VOID_TOGGLE_SETTINGS_ACTION_ID } from '../../../KeplerSettingsPane.js'
+import { VOID_OPENAI_CODEX_SIGN_IN_ACTION_ID } from '../../../actionIDs.js'
+import { modelFilterOfFeatureName, ModelOption } from '../../../../common/KeplerSettingsService.js'
+import { WarningBox } from './WarningBox.js'
+import ErrorBoundary from '../sidebar-tsx/ErrorBoundary.js'
+import { getModelCapabilities } from '../../../../common/modelCapabilities.js'
+
+const optionsEqual = (m1: ModelOption[], m2: ModelOption[]) => {
+	if (m1.length !== m2.length) return false
+	for (let i = 0; i < m1.length; i++) {
+		if (!modelSelectionsEqual(m1[i].selection, m2[i].selection)) return false
+	}
+	return true
+}
+
+const ModelSelectBox = ({ options, featureName, className }: { options: ModelOption[], featureName: FeatureName, className: string }) => {
+	const accessor = useAccessor()
+	const voidSettingsService = accessor.get('IVoidSettingsService')
+
+	const selection = voidSettingsService.state.modelSelectionOfFeature[featureName]
+	const selectedOption = selection ? voidSettingsService.state._modelOptions.find(v => modelSelectionsEqual(v.selection, selection)) ?? options[0] : options[0]
+
+	const onChangeOption = useCallback((newOption: ModelOption) => {
+		voidSettingsService.setModelSelectionOfFeature(featureName, newOption.selection)
+	}, [voidSettingsService, featureName])
+
+	const getOptionDetail = useCallback((option: ModelOption) => {
+		const { providerName, modelName } = option.selection
+		const overrides = voidSettingsService.state.overridesOfModel
+		const capabilities = getModelCapabilities(providerName, modelName, overrides)
+
+		const details: string[] = []
+		details.push(`Provider: ${providerName}`)
+		details.push(`\nContext Window: ${capabilities.contextWindow.toLocaleString()} tokens`)
+
+		if (capabilities.reservedOutputTokenSpace !== null) {
+			details.push(`Output Space: ${capabilities.reservedOutputTokenSpace.toLocaleString()} tokens`)
+		}
+
+		if (capabilities.reasoningCapabilities) {
+			details.push('\nReasoning: Supported')
+			if (capabilities.reasoningCapabilities.canTurnOffReasoning) {
+				details.push('  • Can toggle reasoning on/off')
+			}
+			if (capabilities.reasoningCapabilities.canIOReasoning) {
+				details.push('  • Outputs reasoning process')
+			}
+		}
+
+		if (capabilities.cost) {
+			details.push(`\nCost (per 1M tokens):`)
+			details.push(`  • Input: $${capabilities.cost.input}`)
+			details.push(`  • Output: $${capabilities.cost.output}`)
+			if (capabilities.cost.cache_read) {
+				details.push(`  • Cache Read: $${capabilities.cost.cache_read}`)
+			}
+			if (capabilities.cost.cache_write) {
+				details.push(`  • Cache Write: $${capabilities.cost.cache_write}`)
+			}
+		}
+
+		if (capabilities.supportsFIM) {
+			details.push('\nFill-in-Middle: Supported')
+		}
+
+		if (capabilities.downloadable) {
+			const size = capabilities.downloadable.sizeGb === 'not-known' ? 'Unknown' : `${capabilities.downloadable.sizeGb}GB`
+			details.push(`\nDownloadable: ${size}`)
+		}
+
+		return details.join('\n')
+	}, [voidSettingsService])
+
+	return <VoidCustomDropdownBox
+		options={options}
+		selectedOption={selectedOption}
+		onChangeOption={onChangeOption}
+		getOptionDisplayName={(option) => option.selection.modelName}
+		getOptionDropdownName={(option) => option.selection.modelName}
+		getOptionDropdownDetail={getOptionDetail}
+		getOptionsEqual={(a, b) => optionsEqual([a], [b])}
+		className={className}
+		matchInputWidth={false}
+	/>
+}
+
+
+const MemoizedModelDropdown = ({ featureName, className }: { featureName: FeatureName, className: string }) => {
+	const settingsState = useSettingsState()
+	const authState = useOpenAiCodexAuthState()
+	const accessor = useAccessor()
+	const commandService = accessor.get('ICommandService')
+	const oldOptionsRef = useRef<ModelOption[]>([])
+	const [memoizedOptions, setMemoizedOptions] = useState(oldOptionsRef.current)
+
+	const { filter, emptyMessage } = modelFilterOfFeatureName[featureName]
+
+	useEffect(() => {
+		const oldOptions = oldOptionsRef.current
+		const newOptions = settingsState._modelOptions
+			.filter((o) => filter(o.selection, { chatMode: settingsState.globalSettings.chatMode, overridesOfModel: settingsState.overridesOfModel }))
+			.filter((o) => authState.isAuthenticated || o.selection.providerName !== 'openAICodex')
+
+		if (!optionsEqual(oldOptions, newOptions)) {
+			setMemoizedOptions(newOptions)
+		}
+		oldOptionsRef.current = newOptions
+	}, [settingsState._modelOptions, settingsState.globalSettings.chatMode, settingsState.overridesOfModel, filter, authState.isAuthenticated])
+
+	if (memoizedOptions.length === 0) {
+		const hasCodexModels = settingsState._modelOptions.some((o) => o.selection.providerName === 'openAICodex')
+		if (!authState.isAuthenticated && hasCodexModels) {
+			return <WarningBox
+				onClick={() => commandService.executeCommand(VOID_OPENAI_CODEX_SIGN_IN_ACTION_ID)}
+				text='Sign in to use OpenAI Codex'
+			/>
+		}
+		return <WarningBox text={emptyMessage?.message || 'No models available'} />
+	}
+
+	return <ModelSelectBox featureName={featureName} options={memoizedOptions} className={className} />
+
+}
+
+export const ModelDropdown = ({ featureName, className }: { featureName: FeatureName, className: string }) => {
+	const settingsState = useSettingsState()
+	const authState = useOpenAiCodexAuthState()
+
+	const accessor = useAccessor()
+	const commandService = accessor.get('ICommandService')
+	const voidSettingsService = accessor.get('IVoidSettingsService')
+
+	const openSettings = () => { commandService.executeCommand(VOID_OPEN_SETTINGS_ACTION_ID); };
+
+
+	const { emptyMessage } = modelFilterOfFeatureName[featureName]
+	const selection = settingsState.modelSelectionOfFeature[featureName]
+
+	useEffect(() => {
+		if (authState.isAuthenticated) return
+		if (selection?.providerName !== 'openAICodex') return
+		const { filter } = modelFilterOfFeatureName[featureName]
+		const fallbackOptions = settingsState._modelOptions
+			.filter((o) => filter(o.selection, { chatMode: settingsState.globalSettings.chatMode, overridesOfModel: settingsState.overridesOfModel }))
+			.filter((o) => o.selection.providerName !== 'openAICodex')
+		if (fallbackOptions.length > 0) {
+			voidSettingsService.setModelSelectionOfFeature(featureName, fallbackOptions[0].selection)
+		}
+	}, [authState.isAuthenticated, selection?.providerName, settingsState._modelOptions, settingsState.globalSettings.chatMode, settingsState.overridesOfModel, featureName, voidSettingsService])
+
+	const isDisabled = isFeatureNameDisabled(featureName, settingsState)
+	if (isDisabled)
+		return <WarningBox onClick={openSettings} text={
+			emptyMessage && emptyMessage.priority === 'always' ? emptyMessage.message :
+				isDisabled === 'needToEnableModel' ? 'Enable a model'
+					: isDisabled === 'addModel' ? 'Add a model'
+						: (isDisabled === 'addProvider' || isDisabled === 'notFilledIn' || isDisabled === 'providerNotAutoDetected') ? 'Provider required'
+							: 'Provider required'
+		} />
+
+	return <ErrorBoundary>
+		<MemoizedModelDropdown featureName={featureName} className={className} />
+	</ErrorBoundary>
+}

@@ -11,17 +11,17 @@ import { useAccessor, useChatThreadsState, useChatThreadsStreamState, useSetting
 // Common imports
 import { URI } from '../../../../../../../base/common/uri.js';
 import { ChatMessage, StagingSelectionItem } from '../../../../common/chatThreadServiceTypes.js';
-import { isFeatureNameDisabled } from '../../../../common/KeplerSettingsTypes.js';
+import { isFeatureNameDisabled } from '../../../../common/orbitSettingsTypes.js';
 import { builtinToolNames, isABuiltinToolName, resolveBuiltinToolNameLoose } from '../../../../common/prompt/prompts.js';
 import { RawToolCallObj } from '../../../../common/sendLLMMessageTypes.js';
 import { TextAreaFns, VoidInputBox2 } from '../util/inputs.js';
 import { VOID_CTRL_L_ACTION_ID } from '../../../actionIDs.js';
-import { VOID_OPEN_SETTINGS_ACTION_ID } from '../../../KeplerSettingsPane.js';
+import { VOID_OPEN_SETTINGS_ACTION_ID } from '../../../orbitSettingsPane.js';
 
 // External components (not extracted)
 import ErrorBoundary from './ErrorBoundary.js';
 import { ErrorDisplay } from './ErrorDisplay.js';
-import { WarningBox } from '../Kepler-settings-tsx/WarningBox.js';
+import { WarningBox } from '../orbit-settings-tsx/WarningBox.js';
 import { PastThreadsList } from './SidebarThreadSelector.js';
 
 // Extracted components - Icons
@@ -37,7 +37,7 @@ import { ProseWrapper } from './components/wrappers/ProseWrapper.js';
 
 // Extracted components - Chat
 import { ScrollToBottomContainer } from './components/chat/ScrollToBottomContainer.js';
-import { VoidChatArea } from './components/chat/KeplerChatArea.js';
+import { VoidChatArea } from './components/chat/orbitChatArea.js';
 
 // Extracted components - Chat Components
 import { ChatBubble } from './components/chatComponents/ChatBubble.js';
@@ -81,7 +81,7 @@ export { SmallProseWrapper } from './components/wrappers/SmallProseWrapper.js';
 
 // Re-export Chat Components
 export { ScrollToBottomContainer } from './components/chat/ScrollToBottomContainer.js';
-export { VoidChatArea } from './components/chat/KeplerChatArea.js';
+export { VoidChatArea } from './components/chat/orbitChatArea.js';
 
 // Re-export File Components
 export { SelectedFiles } from './components/files/SelectedFiles.js';
@@ -766,14 +766,18 @@ export const SidebarChat = () => {
 	// </div>
 	const threadPageContent = <div
 		ref={sidebarRef}
-		className='w-full h-full flex flex-col overflow-hidden'
+		className='w-full h-full flex flex-col overflow-hidden relative'
 	>
-		<ErrorBoundary>
-			{messagesHTML}
-		</ErrorBoundary>
-		<ErrorBoundary>
-			{threadPageInput}
-		</ErrorBoundary>
+		<div className='flex-1 overflow-auto pb-32'>
+			<ErrorBoundary>
+				{messagesHTML}
+			</ErrorBoundary>
+		</div>
+		<div className='absolute bottom-0 left-0 right-0 bg-void-bg-2 border-t border-void-stroke-1/20'>
+			<ErrorBoundary>
+				{threadPageInput}
+			</ErrorBoundary>
+		</div>
 	</div>
 
 

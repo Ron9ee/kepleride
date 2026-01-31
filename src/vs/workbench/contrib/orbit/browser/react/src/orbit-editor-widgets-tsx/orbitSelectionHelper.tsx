@@ -11,8 +11,8 @@ import { VOID_CTRL_K_ACTION_ID, VOID_CTRL_L_ACTION_ID } from '../../../actionIDs
 import { Circle, MoreVertical } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-import { VoidSelectionHelperProps } from '../../../KeplerSelectionHelperWidget.js';
-import { VOID_OPEN_SETTINGS_ACTION_ID } from '../../../KeplerSettingsPane.js';
+import { VoidSelectionHelperProps } from '../../../orbitSelectionHelperWidget.js';
+import { VOID_OPEN_SETTINGS_ACTION_ID } from '../../../orbitSettingsPane.js';
 
 
 export const VoidSelectionHelperMain = (props: VoidSelectionHelperProps) => {

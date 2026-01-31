@@ -6,10 +6,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAccessor, useIsDark, useSettingsState } from '../util/services.js';
 import { Brain, Check, ChevronRight, DollarSign, ExternalLink, Lock, X, Eye, EyeOff, AlertCircle } from 'lucide-react';
-import { displayInfoOfProviderName, ProviderName, providerNames, localProviderNames, featureNames, FeatureName, isFeatureNameDisabled, customSettingNamesOfProvider, subTextMdOfProviderName, isProviderNameDisabled, displayInfoOfSettingName } from '../../../../common/KeplerSettingsTypes.js';
-import type { VoidSettingsState } from '../../../../common/KeplerSettingsService.js';
+import { displayInfoOfProviderName, ProviderName, providerNames, localProviderNames, featureNames, FeatureName, isFeatureNameDisabled, customSettingNamesOfProvider, subTextMdOfProviderName, isProviderNameDisabled, displayInfoOfSettingName } from '../../../../common/orbitSettingsTypes.js';
+import type { VoidSettingsState } from '../../../../common/orbitSettingsService.js';
 import { ChatMarkdownRender } from '../markdown/ChatMarkdownRender.js';
-import { OllamaSetupInstructions, OneClickSwitchButton, SettingsForProvider, ModelDump } from '../Kepler-settings-tsx/Settings.js';
+import { OllamaSetupInstructions, OneClickSwitchButton, SettingsForProvider, ModelDump } from '../orbit-settings-tsx/Settings.js';
 import { ColorScheme } from '../../../../../../../platform/theme/common/theme.js';
 import { ConfigurationTarget } from '../../../../../../../platform/configuration/common/configuration.js';
 import ErrorBoundary from '../sidebar-tsx/ErrorBoundary.js';

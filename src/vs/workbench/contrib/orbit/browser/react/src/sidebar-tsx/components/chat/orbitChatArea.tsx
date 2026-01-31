@@ -4,9 +4,9 @@
  *--------------------------------------------------------------------------------------------*/
 
 import React from 'react';
-import { FeatureName } from '../../../../../../common/KeplerSettingsTypes.js';
+import { FeatureName } from '../../../../../../common/orbitSettingsTypes.js';
 import { StagingSelectionItem } from '../../../../../../common/chatThreadServiceTypes.js';
-import { ModelDropdown } from '../../../Kepler-settings-tsx/ModelDropdown.js';
+import { ModelDropdown } from '../../../orbit-settings-tsx/ModelDropdown.js';
 import { IconX } from '../icons/IconX.js';
 import { ButtonStop } from '../buttons/ButtonStop.js';
 import { ButtonSubmit } from '../buttons/ButtonSubmit.js';

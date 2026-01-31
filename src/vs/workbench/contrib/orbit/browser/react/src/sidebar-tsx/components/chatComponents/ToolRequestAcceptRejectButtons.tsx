@@ -7,7 +7,7 @@ import React, { useCallback } from 'react';
 import { ToolName, approvalTypeOfBuiltinToolName } from '../../../../../../common/toolsServiceTypes.js';
 import { isABuiltinToolName } from '../../../../../../common/prompt/prompts.js';
 import { useAccessor, useChatThreadsStreamState } from '../../../util/services.js';
-import { ToolApprovalTypeSwitch } from '../../../Kepler-settings-tsx/Settings.js';
+import { ToolApprovalTypeSwitch } from '../../../orbit-settings-tsx/Settings.js';
 
 export const ToolRequestAcceptRejectButtons = ({ toolName, toolId, threadId }: { toolName: ToolName, toolId: string, threadId: string }) => {
 	// Add safety check for missing tool ID

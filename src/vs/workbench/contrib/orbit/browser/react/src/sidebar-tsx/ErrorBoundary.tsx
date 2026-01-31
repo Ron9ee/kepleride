@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------*/
 
 import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { WarningBox } from '../Kepler-settings-tsx/WarningBox.js';
+import { WarningBox } from '../orbit-settings-tsx/WarningBox.js';
 
 interface Props {
 	children: ReactNode;

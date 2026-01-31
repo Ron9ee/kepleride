@@ -5,7 +5,7 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { useAccessor, useCommandBarState, useIsDark } from '../util/services.js';
-import { VoidCommandBarProps } from '../../../KeplerCommandBarService.js';
+import { VoidCommandBarProps } from '../../../orbitCommandBarService.js';
 import {
 	Check,
 	EllipsisVertical,

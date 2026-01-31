@@ -1,7 +1,7 @@
 {
 	"nameShort": "Kepler",
 	"nameLong": "Kepler IDE",
-	"keplerVersion": "0.0.1",
+	"keplerVersion": "1.0.0",
 	"keplerRelease": "0001",
 	"applicationName": "kepler",
 	"dataFolderName": ".kepler-editor",

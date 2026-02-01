@@ -29,6 +29,10 @@ product.overrides.json
 src/vs/workbench/contrib/Kepler/browser/react/out/**
 src/vs/workbench/contrib/Kepler/browser/react/src2/**
 
+# Build distributions (too large for git)
+builddist/
+../Kepler-*/
+
 # AI/Editor configs
 .agent/
 .claude/

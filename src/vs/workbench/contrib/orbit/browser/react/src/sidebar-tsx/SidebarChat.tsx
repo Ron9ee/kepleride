@@ -37,7 +37,7 @@ import { ProseWrapper } from './components/wrappers/ProseWrapper.js';
 
 // Extracted components - Chat
 import { ScrollToBottomContainer } from './components/chat/ScrollToBottomContainer.js';
-import { VoidChatArea } from './components/chat/orbitChatArea.js';
+import { VoidChatArea } from './components/chat/keplerChatArea.js';
 
 // Extracted components - Chat Components
 import { ChatBubble } from './components/chatComponents/ChatBubble.js';
@@ -81,7 +81,7 @@ export { SmallProseWrapper } from './components/wrappers/SmallProseWrapper.js';
 
 // Re-export Chat Components
 export { ScrollToBottomContainer } from './components/chat/ScrollToBottomContainer.js';
-export { VoidChatArea } from './components/chat/orbitChatArea.js';
+export { VoidChatArea } from './components/chat/keplerChatArea.js';
 
 // Re-export File Components
 export { SelectedFiles } from './components/files/SelectedFiles.js';

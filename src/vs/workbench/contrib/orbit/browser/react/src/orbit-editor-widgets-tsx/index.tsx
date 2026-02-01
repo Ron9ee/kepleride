@@ -4,8 +4,8 @@
  *--------------------------------------------------------------------------------------*/
 
 import { mountFnGenerator } from '../util/mountFnGenerator.js'
-import { VoidCommandBarMain } from './orbitCommandBar.js'
-import { VoidSelectionHelperMain } from './orbitSelectionHelper.js'
+import { VoidCommandBarMain } from './keplerCommandBar.js'
+import { VoidSelectionHelperMain } from './keplerSelectionHelper.js'
 
 export const mountVoidCommandBar = mountFnGenerator(VoidCommandBarMain)
 

@@ -4,6 +4,6 @@
  *--------------------------------------------------------------------------------------*/
 
 import { mountFnGenerator } from '../util/mountFnGenerator.js'
-import { VoidOnboarding } from './orbitOnboarding.js'
+import { VoidOnboarding } from './keplerOnboarding.js'
 
 export const mountVoidOnboarding = mountFnGenerator(VoidOnboarding)

@@ -7,12 +7,12 @@ import path from 'node:path'
 import { defineConfig } from 'tsup'
 
 const entryPoints = [
-	'./src2/Kepler-editor-widgets-tsx/index.tsx',
+	'./src2/orbit-editor-widgets-tsx/index.tsx',
 	'./src2/sidebar-tsx/index.tsx',
 	'./src2/chathistory-tsx/index.tsx',
-	'./src2/Kepler-settings-tsx/index.tsx',
-	'./src2/Kepler-tooltip/index.tsx',
-	'./src2/Kepler-onboarding/index.tsx',
+	'./src2/orbit-settings-tsx/index.tsx',
+	'./src2/orbit-tooltip/index.tsx',
+	'./src2/orbit-onboarding/index.tsx',
 	'./src2/quick-edit-tsx/index.tsx',
 	'./src2/diff/index.tsx',
 	'./src2/plan-editor-tsx/index.tsx',

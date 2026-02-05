@@ -41,6 +41,6 @@ The Void Editor base contains both Apache 2.0 and MIT licensed components.
 
 See [LICENSE.txt](./LICENSE.txt), [LICENSE-VS-Code.txt](./LICENSE-VS-Code.txt), and [NOTICE](./NOTICE) for full details.
 
-## Support
+# Support
 
 You can reach us via [GitHub issues](https://github.com/sarim-developers/kepleride/issues) for community support and discussions.
